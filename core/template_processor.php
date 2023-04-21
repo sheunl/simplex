@@ -1,18 +1,38 @@
 <?php
+/* 
+
+Filename: core/template_processor.php
+
+Author: Abdulrasaq Lawani
+
+Purpose: This file is responsible for processing templates in src.
+
+*/
 
 function get_file_list($root){
     $build_directory = $root."/src";
 }
 
-function copy_static($root){
-    $static_directory_source = $root."/src/static";
-    $static_directory_build = $root."/build";
+function copy_recursively($root,$dest){
+    $static_directory_source = $root;
+    $static_directory_build = $dest;
     $static_files = scandir($static_directory_source);
-    for ($i=2;$i<count($static_files);$i++){
-        copy($static_directory_source."/".$static_files[$i], $static_directory_build."/".$static_files[$i]);
+    unset($static_files[array_search('.',$static_files,true)]);
+    unset($static_files[array_search('..',$static_files,true)]);
+
+    foreach($static_files as $afile){
+        
+        if(is_dir($static_directory_source."/".$afile)) {
+            
+            copy_recursively($static_directory_source."/".$afile,$static_directory_build ."/".$afile);
+        }
+        else{
+            if (!file_exists($static_directory_build))
+                mkdir($static_directory_build,0777,true);
+            copy($static_directory_source."/".$afile, $static_directory_build."/".$afile);
+        }
     }
 }
 
-// get_file_list();
-copy_static("/home/sheunl/Projects/Simplex")
+copy_recursively("/home/sheunl/Projects/Simplex/src/static","/home/sheunl/Projects/Simplex/build/static");
 ?>
