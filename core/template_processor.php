@@ -13,12 +13,6 @@ include "parser.php";
 
 $env_variables = array();
 
-function get_file_list($root){
-    global $gbal;
-    $build_directory = $root."/src";
-    return  $gbal[0];
-}
-
 function read_file_content($file_path){
     $afile = fopen($file_path, "r") or die("Unable to open file!");
     $text  =fread($afile,filesize($file_path));
@@ -49,12 +43,29 @@ function copy_recursively($root,$dest){
     }
 }
 
-function create_pages(){
-    $head_location = "/home/sheunl/Projects/Simplex/src/pages/templates/head.html";
-    $foot_location = "/home/sheunl/Projects/Simplex/src/pages/templates/foot.html";
-    $body_location = "/home/sheunl/Projects/Simplex/src/pages/body";
+function delete_recursively($root){
+    
+    $static_files = scandir($root);
+    unset($static_files[array_search('.',$static_files,true)]);
+    unset($static_files[array_search('..',$static_files,true)]);
 
-    $build_location ="/home/sheunl/Projects/Simplex/build/pages";
+    foreach($static_files as $afile){
+        
+        if(is_dir($root."/".$afile)) {
+            delete_recursively($root."/".$afile);
+        }
+        else{
+            unlink($root."/".$afile);
+        }
+    }
+}
+
+function create_pages($locations=[]){
+    $head_location =  $locations["head_location"];
+    $foot_location = $locations["foot_location"];
+    $body_location = $locations["body_location"];
+
+    $build_location =$locations["build_location"];
 
     $head_text =  read_file_content($head_location);
     $foot_text = read_file_content($foot_location);
@@ -67,6 +78,7 @@ function create_pages(){
         }
 
         $body_text = read_file_content($body_location."/".$file);
+        
         $body_text = parse_body($body_text);
         $build_page = $head_text."\n".$body_text."\n".$foot_text;
 
@@ -78,8 +90,4 @@ function create_pages(){
     var_dump($page_files);
 
 }
-
-// copy_recursively("/home/sheunl/Projects/Simplex/src/static","/home/sheunl/Projects/Simplex/build/static");
-// echo get_file_list("");
-create_pages();
 ?>

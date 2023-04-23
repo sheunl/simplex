@@ -23,6 +23,9 @@ function _err($err="",$type="custom",$debug_info=[]){
     case "s_error":
         echo "Static Error"."\n";
         break;
+    case "link_error_1":
+        echo "Expected two parameters. E.g. {{@link | text }}"."\n";
+        break;
     default:
         echo "Unknown Error.\n";
    } 
