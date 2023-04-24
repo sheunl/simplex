@@ -15,6 +15,10 @@ $env_variables = array();
 
 function read_file_content($file_path){
     $afile = fopen($file_path, "r") or die("Unable to open file!");
+    if(filesize($file_path)<=0){
+        _err("Template file ". substr($file_path,strrpos($file_path,"/")+1) ." is empty. Build terminated.");
+        exit;
+    }
     $text  =fread($afile,filesize($file_path));
     fclose($afile);
 
@@ -86,8 +90,5 @@ function create_pages($locations=[]){
         fwrite($create_page, $build_page);
         fclose($create_page);
     }
-
-    var_dump($page_files);
-
 }
 ?>

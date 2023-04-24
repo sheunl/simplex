@@ -48,16 +48,26 @@ while($progress){
                 $width ="";
             }
             $change = "<img src='".$static_images_location.trim($url)."' ".$width.">";
-        }
-        elseif(trim(substr($item[0],1)) === "script"){
+        }elseif(trim(substr($item[0],1)) === "script"){
             if (count($item) != 2 ) _err(type: "s_error");
             $url = str_replace(".","/",$item[1]);
             if(strrpos($url,"/"))
             $url[strrpos($url,"/")] = ".";
-            $change = "<script src='".$static_scripts_location.trim($url).".js'></script>";
-        }
-       else
-        {
+            $change = "<script src='".$static_scripts_location.trim($url)."'></script>";
+        }elseif(trim(substr($item[0],1)) === "image_r"){
+            $url = $item[1];
+            if(isset($item[2]))
+            {
+                $width="width=".trim($item[2])."px";
+            }else{
+                $width ="";
+            }
+            $change = "<img src='".trim($url)."' ".$width.">";
+        }elseif(trim(substr($item[0],1)) === "script_r"){
+            if (count($item) != 2 ) _err(type: "s_error");
+            $url = $item[1];
+            $change = "<script src='".trim($url)."'></script>";
+        }else{
             _err(type:"s_error");
         }
     }else{

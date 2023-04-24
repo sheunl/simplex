@@ -14,8 +14,8 @@ include "core/parser.php";
 function testing_parser_for_scripts(){
     echo __FUNCTION__."...\n";
 
-    $in = ["{{#script | jam}}"];
-    $out = ["<script src='static/scripts/jam.js'></script>"];
+    $in = ["{{#script | jam.lamb.js}}","{{#script_r |https://code.jquery.com/jquery-3.6.4.slim.js}}"];
+    $out = ["<script src='static/scripts/jam/lamb.js'></script>","<script src='https://code.jquery.com/jquery-3.6.4.slim.js'></script>"];
 
     for($i=0;$i<count($in);$i++){
         if(parse_body($in[$i])!==$out[$i]){
@@ -33,8 +33,8 @@ function testing_parser_for_scripts(){
 function testing_parser_for_images(){
     echo __FUNCTION__."...\n";
 
-    $in = ["{{#image | man.jpeg | 40}}","{{#image | mantle.jpeg}}"];
-    $out = ["<img src='static/images/man.jpeg' width=40px>","<img src='static/images/mantle.jpeg' >"];
+    $in = ["{{#image | man.jpeg | 40}}","{{#image | mantle.jpeg}}","{{#image_r | https://laravel.com/img/logotype.min.svg}}"];
+    $out = ["<img src='static/images/man.jpeg' width=40px>","<img src='static/images/mantle.jpeg' >","<img src='https://laravel.com/img/logotype.min.svg' >"];
 
     for($i=0;$i<count($in);$i++){
         if(parse_body($in[$i])!==$out[$i]){

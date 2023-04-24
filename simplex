@@ -13,7 +13,6 @@ include "core/template_processor.php";
 
 /*Application Parameters*/
 $simplex_options = ["start","build","clean","rebuild"];
-$command = $argv[1];
 $config_file_name = ".config";
 $config_parameters = array();
 
@@ -42,10 +41,12 @@ $style_name = "style.css";
 $script_name = "js.js";
 /***************/
 
-if ($argc !== 2 || !in_array($command,$simplex_options)){
+if ($argc !== 2 || !in_array($argv[1],$simplex_options)){
     echo "Commands:\nbuild - generate static files\nclean - clear build directory\nrebuild - clean directory and regenerate files\n";
     exit();
 }
+
+$command = $argv[1];
 
 /* Check, create config file and make src structure */
 if($command === "start"){
@@ -136,6 +137,7 @@ if($command === "build"){
 
 /*** clean files */
 if($command === "clean"){
+    if(!file_exists("build")) mkdir("build",0777,true);
     delete_recursively($build_directories["build_location"]);
 }
 /*****************/
