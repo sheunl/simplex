@@ -3,4 +3,3 @@ src/*
 tests/snippets/*
 tests/scripts/*
 notes/*
-composer.json
