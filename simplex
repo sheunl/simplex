@@ -9,7 +9,7 @@ Purpose: This file is responsible for running the cli commands for simplex.
 
 */
 
-include "core/template_processor.php";
+require_once "core/template_processor.php";
 
 /*Application Parameters*/
 $simplex_options = ["start","build","clean","rebuild"];
@@ -42,7 +42,7 @@ $script_name = "js.js";
 /***************/
 
 if ($argc !== 2 || !in_array($argv[1],$simplex_options)){
-    echo "Commands:\nbuild - generate static files\nclean - clear build directory\nrebuild - clean directory and regenerate files\n";
+    echo "Commands:\nstart - initial startup. Run to create *src* directory.\nbuild - generate static files\nclean - clear build directory\nrebuild - clean directory and regenerate files\n";
     exit();
 }
 
@@ -104,7 +104,7 @@ if($command === "start"){
     fwrite($foot_file,$fcontent);
     fclose($foot_file);
    
-
+    echo "'.config' file created\n";
 }
 
 if (!file_exists(".config")){
@@ -130,8 +130,12 @@ fclose($config_file);
 /*** build files **/
 if($command === "build"){
     if(!file_exists("build")) mkdir("build",0777,true);
+    if(!file_exists("src")){ 
+        _err("src folder not found! Delete '.config' file and run 'php simplex start'");
+    }
     create_pages($build_directories);
     copy_recursively($config_parameters["ROOT"]."/src/static",$config_parameters["ROOT"]."/build/static");
+    echo "build directory created.\n";
 }
 /**********************/
 
@@ -139,6 +143,7 @@ if($command === "build"){
 if($command === "clean"){
     if(!file_exists("build")) mkdir("build",0777,true);
     delete_recursively($build_directories["build_location"]);
+    echo "build directory cleaned.\n";
 }
 /*****************/
 
@@ -146,8 +151,12 @@ if($command === "clean"){
 if($command === "rebuild"){
     delete_recursively($build_directories["build_location"]);
     if(!file_exists("build")) mkdir("build",0777,true);
+    if(!file_exists("src")){ 
+        _err("src folder not found! Delete '.config' file and run 'php simplex start'");
+    }
     create_pages($build_directories);
     copy_recursively($config_parameters["ROOT"]."/src/static",$config_parameters["ROOT"]."/build/static");
+    echo "build directory rebuilt.\n";
 }
 /*****************/
 ?>

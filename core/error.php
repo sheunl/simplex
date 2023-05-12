@@ -30,7 +30,7 @@ function _err($err="",$type="custom",$debug_info=[]){
         echo "Unknown Error.\n";
    } 
  
-   exit;
+   exit();
 }
 
 ?>

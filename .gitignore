@@ -1,5 +1,5 @@
 build/*
 src/*
-tests/snippets/*
-tests/scripts/*
+tests/*
 notes/*
+test_simplex.php

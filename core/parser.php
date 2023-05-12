@@ -9,7 +9,7 @@ Purpose: This file is responsible for parsing template body.
 
 */
 
-include "error.php";
+require_once "error.php";
 
 function parse_body($string){
 
@@ -32,7 +32,7 @@ while($progress){
         $link = substr($s,$p1+2,$p2-$p1-2);
         $alink = explode("|",$link);
         if (count($alink) != 2 ) _err(err: "link_error_1");
-        $change = "<a href='".trim(substr($alink[0],1)).".html'>".trim($alink[1])."</a>";
+        $change = "<a href='".trim(substr($alink[0],1))."'>".trim($alink[1])."</a>";
     }elseif ($type_indicator === "#"){
         $static = substr($s,$p1+2,$p2-$p1-2);
         $item = explode("|",$static);
