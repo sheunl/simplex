@@ -1,17 +1,18 @@
 <?php
 /* 
 
-Filename: Simplex.php
+Filename: Server.php
 
 Author: Abdulrasaq Lawani
 
-Purpose: This file is responsible for running all the commands for simplex from both GUI and CLI.
+Purpose: Handling running of server.
 
 */
 namespace App;
 
-
 class Server{
+
+    protected $config_parameters = [];
 
     static $descriptorspec = array(
         0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
@@ -19,15 +20,18 @@ class Server{
         2 => array("pipe", "w") // stderr is a file to write to
      );
 
-     static $cwd = 'Template/pages';
+     static $cwd = 'Template';
 
     function __construct(){
         
     }
 
+    /**
+     * Run server and output logs
+     */
 
     static function run_server(){
-        $process = proc_open('php -S 127.0.0.1:9999', self::$descriptorspec, $pipes, self::$cwd, null);
+        $process = proc_open('php -S 127.0.0.1:9999 index.php', self::$descriptorspec, $pipes, self::$cwd, null);
 
         while(true){
             echo fgets($pipes[2]);
@@ -40,8 +44,6 @@ class Server{
         return $return_value;
     }
 
-
+    
 }
-
-
 ?>

@@ -1,7 +1,13 @@
 .idea
+.vscode
 build/*
 src/*
 tests/*
 notes/*
 test_simplex.php
 .config
+phpunit
+Tests
+vendor
+phpstan
+.phpunit.result.cache
