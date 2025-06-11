@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('description');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->foreignId('course_categories_id')->constrained()->onDelete('cascade');
             $table->enum('difficulty', ['beginner', 'intermediate', 'advanced'])->default('beginner');
             $table->timestamps();
         });
