@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->text('content')->nullable();
             $table->boolean('is_published')->default(false);
-            $table->timestamp('published_at')->nullable();
             $table->json('tags')->nullable();
             $table->timestamps();
         });

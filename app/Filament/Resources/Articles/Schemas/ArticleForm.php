@@ -36,7 +36,6 @@ class ArticleForm
                     ->columnSpanFull(),
                 Toggle::make('is_published')
                     ->required(),
-                DateTimePicker::make('published_at'),
                 Textarea::make('tags')
                     ->default(null)
                     ->columnSpanFull(),
